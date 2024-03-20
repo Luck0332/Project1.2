@@ -3,32 +3,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        System.out.print("-----------------------------------\n" +  // Main Menu
-                "        ชื่อร้าน\n" +
-                "-----------------------------------\n" +
-                "1. Booking\n" +
-                "2. Check your booking(Admin)\n" +
-                "3. Exit\n" +
-                "-------------------\n" +
-
-
-                "Enter Number : ");
-
-                
-        String firstCheck = input.next();
-
-        switch (firstCheck) {
-            case "1":
-              Booking();
-
-        }
-    }
-    public static void Booking() {
-
-        Scanner input = new Scanner(System.in);
-
         Table[] vipTable = new Table[15];
         vipTable[0] = new Table("101", "VIP");
         vipTable[1] = new Table("102", "VIP");
@@ -67,21 +41,52 @@ public class Main {
         regularTable[17] = new Table("218", "Regular");
         regularTable[18] = new Table("219", "Regular");
         regularTable[19] = new Table("220", "Regular");
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("-----------------------------------\n" +  // Main Menu
+                "        ชื่อร้าน\n" +
+                "-----------------------------------\n" +
+                "1. Booking\n" +
+                "2. Check your booking(Admin)\n" +
+                "3. Exit\n" +
+                "-------------------\n" +
+
+
+                "Enter Number : ");
+
+                
+        String firstCheck = input.next();
+         // รับข้อมูลจากผู้ใช้
+         System.out.print("Enter customer name:");
+         String customerName = input.next();
+
+         //กรอกวันที่ต้องการจอง
+         System.out.print("Enter booking date (DD/MM/YYYY):");
+         String bookingDate = input.next();
+
+         //กรอกหมายเลขโทรศัพท์
+         System.out.print("Enter phone number:");
+         String phoneNumber = input.next();
+
+
+        switch (firstCheck) {
+            case "1":
+                Booking(vipTable,regularTable,customerName, bookingDate,phoneNumber);
+
+            case "2":
+                Ad(vipTable, regularTable,  customerName, bookingDate, bookingDate);    
+
+        }
+    }
+    public static void Booking(Table[] vipTable, Table[] regularTable,String name, String date, String tel) {
+
+        Scanner input = new Scanner(System.in);
+
+        
 
         String answer = "Y";
 
-            // รับข้อมูลจากผู้ใช้
-            System.out.print("Enter customer name:");
-            String customerName = input.next();
-
-            //กรอกวันที่ต้องการจอง
-            System.out.print("Enter booking date (DD/MM/YYYY):");
-            String bookingDate = input.next();
-
-            //กรอกหมายเลขโทรศัพท์
-            System.out.print("Enter phone number:");
-            String phoneNumber = input.next();
-
+           
         while (answer.split("")[0].equals("Y")) {
             // กรอกประเภทโต๊ะที่เลือก
             System.out.print("Enter table type (Vip Or Regular):");
@@ -114,7 +119,7 @@ public class Main {
                 //แสดงรายละเอียดการจอง
                 System.out.println();
                 System.out.println("======Review information======");
-                Reserve reserve = new Reserve(customerName, bookingDate, phoneNumber, tableType, tableNumber);
+                Reserve reserve = new Reserve(name, date, tel, tableType, tableNumber);
                 reserve.displayReservationDetails();
                 vipTable[Integer.parseInt(tableNumber.substring(1))-1].booked = true;
 
@@ -151,7 +156,7 @@ public class Main {
                 //แสดงรายละเอียดการจอง
                 System.out.println();
                 System.out.println("======Review information======");
-                Reserve reserve = new Reserve(customerName, bookingDate, phoneNumber, tableType, tableNumber);
+                Reserve reserve = new Reserve(name, date, tel, tableType, tableNumber);
                 reserve.displayReservationDetails();
                 regularTable[Integer.parseInt(tableNumber.substring(1))-1].booked = true;
 
@@ -170,9 +175,50 @@ public class Main {
         System.out.println("Thank you for using Seat Reservation System!");
     }
 
-    public static void Admin() {
+    public static void Ad(Table[] vip, Table[] regula, String name, String date, String tel) {
+        Scanner input = new Scanner(System.in);
 
+        Admin admin = new Admin("namtan", "66160240", "ceo");
+    
+
+        System.out.print("-----------------------------------\n" +  // Main Menu
+                "        Login\n" +
+                "-----------------------------------\n" +
+                "Enter Name : ");
+                String nameInput = input.next();
+                if(nameInput.equals(admin.getUsername())) {
+                    System.out.print("Enter Password: ");
+                    String passInput = input.next();
+                    if (passInput.equals(admin.getPassword())) {
+                        System.out.print("-----------------------------------\n" +  // Main Menu
+                "        Check Table\n" +
+                "-----------------------------------\n" +
+                "1. Vip Table\n" +
+                "2. Regular Table\n" + 
+                "-------------------\n" +
+
+
+                "Enter Type Table : ");
+                        String typeTable = input.next();
+                        if(typeTable.charAt(0)==('1')) {
+                        for (int i = 0 ; i < vip.length ; i++) {
+                            if((vip[i].booked)) {
+                                Reserve reserve = new Reserve(name, date, tel, "vipTable", vip[i].getTableNumber());
+                                if(vip[i].getTableNumber().equals(reserve.getTableNumber())) {
+                                    System.out.println("-----------------------------------");
+                                    reserve.displayReservationDetails();
+                                    System.out.println("-----------------------------------");
+                                }
+                            }
+ 
+                        }
+                       
+                    }
+
+                }
     }
+    }
+
 }
 
 

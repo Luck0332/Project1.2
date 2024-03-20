@@ -63,10 +63,11 @@ public class Reserve {
     // เมธอดเพื่อแสดงข้อมูลการจอง
     public void displayReservationDetails() {
         System.out.println("Reservation details:");
+        System.out.println("Table Number: " + tableNumber);
         System.out.println("Customer Name: " + customerName);
         System.out.println("Booking Date: " + bookingDate);
         System.out.println("Phone Number: " + phoneNumber);
         System.out.println("Table Type: " + tableType);
-        System.out.println("Table Number: " + tableNumber);
+
     }
 }
