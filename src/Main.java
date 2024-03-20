@@ -12,7 +12,11 @@ public class Main {
                 "2. Check your booking(Admin)\n" +
                 "3. Exit\n" +
                 "-------------------\n" +
+
+
                 "Enter Number : ");
+
+                
         String firstCheck = input.next();
 
         switch (firstCheck) {
